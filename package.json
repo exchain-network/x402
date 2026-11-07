@@ -1,0 +1,48 @@
+{
+  "name": "@exchain-network/x402",
+  "version": "0.1.0",
+  "description": "Pay x402 sellers from an Exchain-guarded Safe: every payment is checked against your mandate and co-signed by attested enclaves, and the seller gets a verifiable guard receipt.",
+  "keywords": [
+    "x402",
+    "exchain",
+    "safe",
+    "erc-1271",
+    "usdc",
+    "base",
+    "agents",
+    "payments",
+    "mandate"
+  ],
+  "homepage": "https://exchain.network",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exchain-network/x402.git"
+  },
+  "bugs": {
+    "url": "https://github.com/exchain-network/x402/issues"
+  },
+  "license": "Apache-2.0",
+  "author": "Yuval Shmueli, trading as Exchain (https://exchain.network)",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "NOTICE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "peerDependencies": {
+    "@x402/evm": "^2.29.0",
+    "@x402/fetch": "^2.29.0",
+    "viem": "^2.52.2"
+  }
+}
