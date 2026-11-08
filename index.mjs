@@ -166,8 +166,11 @@ function request({ walletId, typedData, context, agentSignature }) {
 function feeSettler({ safe, agent, walletId, endpoint }) {
   return async (fee) => {
     const m = fee.typedData.message;
-    const typed = { ...fee.typedData, message: { ...m, value: BigInt(m.value), validAfter: BigInt(m.validAfter), validBefore: BigInt(m.validBefore) } };
-    const agentSignature = await agent.sign({ hash: safeMessageHash(safe, typed) });
+    const hash =
+      fee.typedData.primaryType === "SafeTx"
+        ? hashTypedData({ ...fee.typedData, message: { ...m, value: BigInt(m.value), safeTxGas: BigInt(m.safeTxGas), baseGas: BigInt(m.baseGas), gasPrice: BigInt(m.gasPrice), nonce: BigInt(m.nonce) } })
+        : safeMessageHash(safe, { ...fee.typedData, message: { ...m, value: BigInt(m.value), validAfter: BigInt(m.validAfter), validBefore: BigInt(m.validBefore) } });
+    const agentSignature = await agent.sign({ hash });
     const { status, answer } = await post(endpoint, "/v1/x402/fees", { walletId, typedData: fee.typedData, agentSignature });
     if (status !== 200) throw new Error(`exchain fee settlement answered ${status}: ${answer.error ?? ""} ${answer.detail ?? ""}`.trim());
   };
